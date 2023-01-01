@@ -45,9 +45,6 @@ func main() {
 			if strings.Compare(args[i], "-service") == 0 {
 				continue
 			}
-			if strings.Compare(args[i], "-eoe") == 0 {
-				continue
-			}
 			if strings.Compare(args[i], "-cron") == 0 {
 				cronEnable = true
 			}
@@ -56,7 +53,6 @@ func main() {
 		if !cronEnable {
 			execArgs = append(execArgs, "-cron", "0 0 2 * * *")
 		}
-		execArgs = append(execArgs, "-eoe", "false")
 
 		ex, _ := os.Executable()
 		p, _ := filepath.Abs(ex)
@@ -78,10 +74,13 @@ func main() {
 	if strings.Compare(cron, "") == 0 {
 		doAction()
 		return
+	} else {
+		config.KeepWhenException = true
 	}
 
 	c := cron3.New()
 	c.AddFunc(cron, doAction)
+	log.Infof("lombok-plugin-action started!")
 	c.Run()
 }
 
@@ -91,7 +90,6 @@ func initFlag() {
 	flag.BoolVar(&debug, "debug", false, "Debug mod")
 	flag.BoolVar(&service, "service", false, "Service mod")
 	flag.StringVar(&cron, "cron", "", "Crontab operation")
-	flag.BoolVar(&config.ExitOnException, "eoe", true, "Exit on exception")
 	flag.Parse()
 }
 

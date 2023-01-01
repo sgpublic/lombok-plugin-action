@@ -1,5 +1,5 @@
 package config
 
 var (
-	ExitOnException = false
+	KeepWhenException = false
 )

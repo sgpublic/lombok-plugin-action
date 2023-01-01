@@ -17,7 +17,7 @@ func FatalLogln(args ...interface{}) {
 }
 
 func checkExit() {
-	if config.ExitOnException {
+	if !config.KeepWhenException {
 		os.Exit(1)
 	}
 }

@@ -62,12 +62,12 @@ download:
 
 func CreateReleaseNote(verNames []string) (string, bool) {
 	result := ""
-	prerelease := false
+	prerelease := true
 	for _, name := range verNames {
 		result += "\n+ " + name
-		if !prerelease && !strings.Contains(name, "Beta") ||
-			!strings.Contains(name, "Canary") || !strings.Contains(name, "RC") {
-			prerelease = true
+		if prerelease && !strings.Contains(name, "Beta") &&
+			!strings.Contains(name, "Canary") && !strings.Contains(name, "RC") {
+			prerelease = false
 		}
 	}
 	return result, prerelease
